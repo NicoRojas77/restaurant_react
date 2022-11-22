@@ -1,8 +1,8 @@
 import { BASE_API } from "../utils/constants";
 
-export async function getCategoriesApi() {
+export async function getProductsApi() {
   try {
-    const url = `${BASE_API}/api/categorias/`;
+    const url = `${BASE_API}/api/productos/`;
     const response = await fetch(url);
     const result = await response.json();
     return result;
@@ -11,13 +11,16 @@ export async function getCategoriesApi() {
   }
 }
 
-export async function addCategoryApi(data, token) {
+export async function addProductApi(data, token) {
   try {
     const formData = new FormData();
-    formData.append("imagen", data.imagen);
     formData.append("nombre", data.nombre);
+    formData.append("precio", data.precio);
+    formData.append("categoria", data.categoria);
+    formData.append("activo", data.activo);
+    formData.append("imagen", data.imagen);
 
-    const url = `${BASE_API}/api/categorias/`;
+    const url = `${BASE_API}/api/productos/`;
     const params = {
       method: "POST",
       headers: {
@@ -34,13 +37,16 @@ export async function addCategoryApi(data, token) {
   }
 }
 
-export async function updateCategoryApi(id, data, token) {
+export async function updateProductApi(id, data, token) {
   try {
     const formData = new FormData();
     formData.append("nombre", data.nombre);
+    formData.append("precio", data.precio);
+    formData.append("categoria", data.categoria);
+    formData.append("activo", data.activo);
     if (data.imagen) formData.append("imagen", data.imagen);
 
-    const url = `${BASE_API}/api/categorias/${id}/`;
+    const url = `${BASE_API}/api/productos/${id}/`;
     const params = {
       method: "PATCH",
       headers: {
@@ -56,9 +62,9 @@ export async function updateCategoryApi(id, data, token) {
   }
 }
 
-export async function deleteCategoryApi(id, token) {
+export async function deleteProductApi(id, token) {
   try {
-    const url = `${BASE_API}/api/categorias/${id}/`;
+    const url = `${BASE_API}/api/productos/${id}/`;
     const params = {
       method: "DELETE",
       headers: {
@@ -69,6 +75,6 @@ export async function deleteCategoryApi(id, token) {
     const result = await response.json();
     return result;
   } catch (error) {
-    throw error   
+    throw error;
   }
 }

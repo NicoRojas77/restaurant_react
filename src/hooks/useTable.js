@@ -1,45 +1,29 @@
 import { useState } from "react";
-import {
-  getCategoriesApi,
-  addCategoryApi,
-  updateCategoryApi,
-  deleteCategoryApi,
-} from "../api/category";
+import { getTablesApi, addTableApi, updateTableApi , deleteTableApi} from "../api/table";
 import { useAuth } from "./";
 
-export function useCategory() {
+export function useTable() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
-  const [categories, setCategories] = useState(null);
+  const [tables, setTables] = useState(null);
   const { auth } = useAuth();
 
-  const getCategories = async () => {
+  const getTables = async () => {
     try {
       setLoading(true);
-      const response = await getCategoriesApi();
+      const response = await getTablesApi();
       setLoading(false);
-      setCategories(response);
+      setTables(response);
     } catch (error) {
       setLoading(false);
       setError(error);
     }
   };
 
-  const addCategory = async (data) => {
+  const addTable = async (data) => {
     try {
       setLoading(true);
-      await addCategoryApi(data, auth.token);
-      setLoading(false);
-    } catch (error) {
-      setLoading(false);
-      setError(error);
-    }
-  };
-
-  const updateCategory = async (id, data) => {
-    try {
-      setLoading(true);
-      await updateCategoryApi(id, data, auth.token);
+      await addTableApi(data, auth.token);
       setLoading(false);
     } catch (error) {
       setLoading(false);
@@ -47,24 +31,37 @@ export function useCategory() {
     }
   };
 
-  const deleteCategory = async (id) => {
+  const updateTable = async (id, data) => {
     try {
       setLoading(true);
-      await deleteCategoryApi(id, auth.token);
+      await updateTableApi(id, data, auth.token);
       setLoading(false);
     } catch (error) {
       setLoading(false);
       setError(error);
     }
   };
+
+  const deleteTable = async (id) => {
+    try {
+      setLoading(true);
+      await deleteTableApi(id, auth.token);
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      setError(error);
+    }
+  };
+
+
 
   return {
     loading,
     error,
-    categories,
-    getCategories,
-    addCategory,
-    updateCategory,
-    deleteCategory,
+    tables,
+    getTables,
+    addTable,
+    updateTable,
+    deleteTable,
   };
 }

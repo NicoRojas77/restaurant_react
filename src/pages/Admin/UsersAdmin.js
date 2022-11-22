@@ -8,7 +8,7 @@ export function UsersAdmin() {
   const {auth} = useAuth();
   const {getUsers} = useUser();
 
-  useEffect(()=> getUsers(), [])
+  useEffect(()=> {getUsers()}, [])
    
   if(!auth.me?.is_staff)return(<div><h1>No tienes Permisos para acceder a la pagina</h1></div>)
   return (

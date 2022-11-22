@@ -1,45 +1,34 @@
 import { useState } from "react";
 import {
-  getCategoriesApi,
-  addCategoryApi,
-  updateCategoryApi,
-  deleteCategoryApi,
-} from "../api/category";
+  getProductsApi,
+  addProductApi,
+  updateProductApi,
+  deleteProductApi,
+} from "../api/product";
 import { useAuth } from "./";
 
-export function useCategory() {
+export function useProduct() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
-  const [categories, setCategories] = useState(null);
+  const [products, setProducts] = useState(null);
   const { auth } = useAuth();
 
-  const getCategories = async () => {
+  const getProducts = async () => {
     try {
       setLoading(true);
-      const response = await getCategoriesApi();
+      const response = await getProductsApi();
       setLoading(false);
-      setCategories(response);
+      setProducts(response);
     } catch (error) {
       setLoading(false);
       setError(error);
     }
   };
 
-  const addCategory = async (data) => {
+  const addProduct = async (data) => {
     try {
       setLoading(true);
-      await addCategoryApi(data, auth.token);
-      setLoading(false);
-    } catch (error) {
-      setLoading(false);
-      setError(error);
-    }
-  };
-
-  const updateCategory = async (id, data) => {
-    try {
-      setLoading(true);
-      await updateCategoryApi(id, data, auth.token);
+      await addProductApi(data, auth.token);
       setLoading(false);
     } catch (error) {
       setLoading(false);
@@ -47,10 +36,21 @@ export function useCategory() {
     }
   };
 
-  const deleteCategory = async (id) => {
+  const updateProduct = async (id, data) => {
     try {
       setLoading(true);
-      await deleteCategoryApi(id, auth.token);
+      await updateProductApi(id, data, auth.token);
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      setError(error);
+    }
+  };
+
+  const deleteProduct = async (id) => {
+    try {
+      setLoading(true);
+      await deleteProductApi(id, auth.token);
       setLoading(false);
     } catch (error) {
       setLoading(false);
@@ -61,10 +61,10 @@ export function useCategory() {
   return {
     loading,
     error,
-    categories,
-    getCategories,
-    addCategory,
-    updateCategory,
-    deleteCategory,
+    products,
+    getProducts,
+    addProduct,
+    updateProduct,
+    deleteProduct,
   };
 }

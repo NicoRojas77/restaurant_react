@@ -1,8 +1,8 @@
 import { BASE_API } from "../utils/constants";
 
-export async function getCategoriesApi() {
+export async function getTablesApi() {
   try {
-    const url = `${BASE_API}/api/categorias/`;
+    const url = `${BASE_API}/api/mesas/`;
     const response = await fetch(url);
     const result = await response.json();
     return result;
@@ -11,19 +11,16 @@ export async function getCategoriesApi() {
   }
 }
 
-export async function addCategoryApi(data, token) {
+export async function addTableApi(data, token) {
   try {
-    const formData = new FormData();
-    formData.append("imagen", data.imagen);
-    formData.append("nombre", data.nombre);
-
-    const url = `${BASE_API}/api/categorias/`;
+    const url = `${BASE_API}/api/mesas/`;
     const params = {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
       },
-      body: formData,
+      body: JSON.stringify(data),
     };
 
     const response = await fetch(url, params);
@@ -34,19 +31,16 @@ export async function addCategoryApi(data, token) {
   }
 }
 
-export async function updateCategoryApi(id, data, token) {
+export async function updateTableApi(id, data, token) {
   try {
-    const formData = new FormData();
-    formData.append("nombre", data.nombre);
-    if (data.imagen) formData.append("imagen", data.imagen);
-
-    const url = `${BASE_API}/api/categorias/${id}/`;
+    const url = `${BASE_API}/api/mesas/${id}/`;
     const params = {
       method: "PATCH",
       headers: {
         Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
       },
-      body: formData,
+      body: JSON.stringify(data),
     };
     const response = await fetch(url, params);
     const result = await response.json();
@@ -56,19 +50,19 @@ export async function updateCategoryApi(id, data, token) {
   }
 }
 
-export async function deleteCategoryApi(id, token) {
+export async function deleteTableApi(id,  token) {
   try {
-    const url = `${BASE_API}/api/categorias/${id}/`;
+    const url = `${BASE_API}/api/mesas/${id}/`;
     const params = {
       method: "DELETE",
       headers: {
-        Authorization: `Bearer ${token}`,
-      },
+        Authorization: `Bearer ${token}`
+      }
     };
     const response = await fetch(url, params);
     const result = await response.json();
     return result;
   } catch (error) {
-    throw error   
+    throw error;
   }
 }
