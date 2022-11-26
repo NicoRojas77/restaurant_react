@@ -35,7 +35,7 @@ export function TableCategoryAdmin(props) {
 
 function Actions(props) {
   const { category, updateCategory, deleteCategory } = props;
-  console.log(category)
+
   return (
     <Table.Cell textAlign="right">
       <Button icon onClick={() => updateCategory(category)}>
