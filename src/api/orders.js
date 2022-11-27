@@ -36,3 +36,16 @@ export async function checkDeliveredOrderApi(id) {
     throw error;
   }
 }
+
+export async function getOrdersByPaymentApi(idPayment) {
+  try {
+    const paymentFilter = `pago=${idPayment}`
+
+    const url = `${BASE_API}/api/ordenes/?${paymentFilter}`;
+    const response = await fetch(url);
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    throw error;
+  }
+}

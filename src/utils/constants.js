@@ -5,3 +5,8 @@ export const ORDER_STATUS = {
     PENDING: "PENDIENTE",
     DELIVERED: "ENTREGADO"
 }
+
+export const PAYMENT_STATUS = {
+    PENDING: "PENDIENTE",
+    PAID: "PAGADO"
+}
