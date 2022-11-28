@@ -1,0 +1,42 @@
+.order-history-item{
+    position: relative;
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 20px;
+    margin: 50px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    &.pendiente{
+        background-color: rgb(247, 253, 119);
+    }
+    &.entregado{
+        background-color: rgb(148, 251, 125);
+    }
+    &__time{
+        position: absolute;
+        top: -14px;
+        right: 10px;
+        background-color: #f2f2f2;
+        padding: 5px 20px;
+        border: 1px solid black;
+        border-radius: 5px;
+    }
+
+    &__product {
+        display: flex;
+        align-items: center;
+
+        .ui.image {
+            width: 80px;
+            margin-right: 20px;
+            border-radius: 5px;
+        }
+    p{
+        margin: 0;
+        font-weight: bold;
+        font-size: 20px;
+    }
+    }
+}

@@ -49,3 +49,23 @@ export async function getOrdersByPaymentApi(idPayment) {
     throw error;
   }
 }
+
+export async function addOrderToTableApi(idTable, idProduct) {
+  try {
+    const url = `${BASE_API}/api/ordenes/`;
+    const params = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        estado: ORDER_STATUS.PENDING,
+        mesa: idTable,
+        producto: idProduct,
+      }),
+    };
+    await fetch(url, params);
+  } catch (error) {
+    throw error;
+  }
+}

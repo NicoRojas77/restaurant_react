@@ -62,6 +62,17 @@ export async function updateProductApi(id, data, token) {
   }
 }
 
+export async function getProductByIdApi(id) {
+  try {
+    const url = `${BASE_API}/api/productos/${id}/`;
+    const response = await fetch(url);
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    throw error;
+  }
+}
+
 export async function deleteProductApi(id, token) {
   try {
     const url = `${BASE_API}/api/productos/${id}/`;
@@ -76,5 +87,17 @@ export async function deleteProductApi(id, token) {
     return result;
   } catch (error) {
     throw error;
+  }
+}
+
+export async function getProductsByCategoryApi(idCategory){
+  try {
+      const categoryFilter = `categoria=${idCategory}`
+      const url = `${BASE_API}/api/productos/?${categoryFilter}`
+      const response = await fetch(url)
+      const result = await response.json()
+      return result
+  } catch (error) {
+    throw error
   }
 }

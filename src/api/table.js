@@ -77,3 +77,16 @@ export async function getTableApi(idTable) {
     throw error;
   }
 }
+
+export async function getTableByNumberApi(numberTable) {
+  try {
+    const tableFilter = `numero=${numberTable}`
+
+    const url = `${BASE_API}/api/mesas/?${tableFilter}`;
+    const response = await fetch(url);
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    throw error;
+  }
+}

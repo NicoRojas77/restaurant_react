@@ -1,0 +1,20 @@
+.client-layout-bg{
+    background-color: #F2F2F2;
+    background-image: linear-gradient(300deg, #2a2a72 20%, #409ba9d0 80%);
+    min-height: 100vh;
+    min-width: 100vw;
+    padding: 1em 0;
+}
+
+.client-layout{
+    background-color: whitesmoke;
+    padding: 10px;
+    border-radius: 5px;
+
+    &__header{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 20px;
+    }
+}
