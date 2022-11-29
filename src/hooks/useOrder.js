@@ -1,5 +1,12 @@
 import { useState } from "react";
-import { getOrdersByTableApi, checkDeliveredOrderApi,getOrdersByPaymentApi, addOrderToTableApi } from "../api/orders";
+import {
+  getOrdersByTableApi,
+  checkDeliveredOrderApi,
+  addOrderToTableApi,
+  addPaymentToOrderApi,
+  closeOrderApi,
+  getOrdersByPaymentApi,
+} from "../api/orders";
 
 export function useOrder() {
   const [loading, setLoading] = useState(true);
@@ -17,19 +24,19 @@ export function useOrder() {
       setError(error);
     }
   };
-  
+
   const checkDeliveredOrder = async (idOrder) => {
     try {
-        await checkDeliveredOrderApi(idOrder)
+      await checkDeliveredOrderApi(idOrder);
     } catch (error) {
-        setError(error)
+      setError(error);
     }
-  }
+  };
 
   const getOrdersByPayment = async (idpayment) => {
     try {
-      const response = await getOrdersByPaymentApi (idpayment);
-      return response
+      const response = await getOrdersByPaymentApi(idpayment);
+      return response;
     } catch (error) {
       setError(error);
     }
@@ -43,6 +50,22 @@ export function useOrder() {
     }
   };
 
+  const addPaymentToOrder = async (idOrder, idPayment) => {
+    try {
+      await addPaymentToOrderApi(idOrder, idPayment);
+    } catch (error) {
+      setError(error);
+    }
+  };
+
+  const closeOrder = async (idOrder) => {
+    try {
+      await closeOrderApi(idOrder);
+    } catch (error) {
+      setError(error);
+    }
+  };
+
   return {
     loading,
     error,
@@ -51,5 +74,7 @@ export function useOrder() {
     checkDeliveredOrder,
     getOrdersByPayment,
     addOrderToTable,
+    addPaymentToOrder,
+    closeOrder,
   };
 }

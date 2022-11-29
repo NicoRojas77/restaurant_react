@@ -1,35 +1,91 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { useOrder, useTable } from "../../hooks";
+import { useOrder, useTable, usePayment } from "../../hooks";
 import { map, size, forEach } from "lodash";
 import { OrderHistoryItem } from "../../components/Client/OrderHistoryItem/OrderHistoryItem";
+import { ModalConfirm } from "../../components/Common/ModalConfirm/ModalConfirm";
+import { Button } from "semantic-ui-react";
 
 export function OrdersHistory() {
-  const { loading, orders, getOrdersByTable } = useOrder();
+  const [idTable, setIdTable] = useState(null);
+  const [showTypePayment, setShowTypePayment] = useState(false);
+  const [isRequestAccount, setIsRequestAccount] = useState(false)
+  const { loading, orders, getOrdersByTable, addPaymentToOrder } = useOrder();
   const { getTableByNumber } = useTable();
   const { tableNumber } = useParams();
+  const { createPayment, getPaymentByTable } = usePayment()
 
   useEffect(() => {
     (async () => {
       const table = await getTableByNumber(tableNumber);
-      const idTable = table[0].id;
+      const idTableTemp = table[0].id;
+      setIdTable(idTableTemp);
 
-      getOrdersByTable(idTable, "", "ordering=-estado,-creado_el");
+      getOrdersByTable(idTableTemp, "", "ordering=-estado,-creado_el");
     })();
   }, []);
 
-  return (
-  <div>
-    <h1>Historial de pedidos</h1>
+  useEffect(() => {
+    (async ()=> {
+      if (idTable) {
+        const response = await getPaymentByTable(idTable)
+        setIsRequestAccount(response)
+      }
+    })()
+  }, [idTable])
+  
 
-    {loading ? (
+  const onCreatePayment = async (paymentType) => {
+    setShowTypePayment(false);
+    let totalPayment = 0;
+    forEach(orders, (order) => {
+      totalPayment += Number(order.product_data.precio);
+    });
+
+    const paymentData =  {
+      mesa: idTable,
+      totalPago: totalPayment,
+      tipoPago: paymentType,
+      estadoPago: "PENDIENTE",
+    };
+
+    const payment = await createPayment(paymentData)
+    for await (const order of orders){
+      await addPaymentToOrder(order.id, payment.id)
+    }
+
+    window.location.reload()
+  };
+
+  return (
+    <div>
+      <h1>Historial de pedidos</h1>
+
+      {loading ? (
         <p>Cargando...</p>
-    ) : (
+      ) : (
         <>
-        {map(orders, (order) =>(
-            <OrderHistoryItem key={order.id} order={order}/>
-        ))}
+          {size(orders) > 0 && (
+            <Button primary fluid onClick={() => size(isRequestAccount) === 0 && setShowTypePayment(true)}>
+             {size(isRequestAccount) > 0 ?
+              "La cuenta esta en camino"
+             : "Pedir Cuenta"}
+            </Button>
+          )}
+          {map(orders, (order) => (
+            <OrderHistoryItem key={order.id} order={order} />
+          ))}
         </>
-    )}
-    </div>);
+      )}
+
+      <ModalConfirm
+        title="Pagar con tarjeta o efectivo"
+        show={showTypePayment}
+        onCloseText="Efectivo"
+        onClose={() => onCreatePayment("EFECTIVO")}
+        onConfirmText="Tarjeta"
+        onConfirm={() => onCreatePayment("TARJETA")}
+      />
+    </div>
+  );
 }

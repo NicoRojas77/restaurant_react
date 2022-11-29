@@ -32,13 +32,11 @@ export function OrderItemAdmin(props) {
         <p>{nombre}</p>
       </div>
 
-      {order.estado == ORDER_STATUS.PENDING ? (
+      {order.estado == ORDER_STATUS.PENDING && (
         <Button primary onClick={onCheckDeliveredOrder}>
           Marcar como entregado
         </Button>
-      ) : (
-        <Label color="blue">Entregado</Label>
-      )}
+      ) }
     </div>
   );
 }

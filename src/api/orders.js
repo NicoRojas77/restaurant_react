@@ -4,7 +4,7 @@ export async function getOrdersByTableApi(idTable, estado = "", ordenes = "") {
   try {
     const tableFilter = `mesa=${idTable}`;
     const statusFilter = `estado=${estado}`;
-    const closeFilter = "close=False";
+    const closeFilter = "cerrado=False";
 
     const url = `${BASE_API}/api/ordenes/?${tableFilter}&${statusFilter}&${closeFilter}&${ordenes}`;
 
@@ -62,6 +62,42 @@ export async function addOrderToTableApi(idTable, idProduct) {
         estado: ORDER_STATUS.PENDING,
         mesa: idTable,
         producto: idProduct,
+      }),
+    };
+    await fetch(url, params);
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function addPaymentToOrderApi(idOrder, idPayment) {
+  try {
+    const url = `${BASE_API}/api/ordenes/${idOrder}/`;
+    const params = {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        pago: idPayment,
+      }),
+    };
+    await fetch(url, params);
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function closeOrderApi(idOrder) {
+  try {
+    const url = `${BASE_API}/api/ordenes/${idOrder}/`;
+    const params = {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        cerrado: true,
       }),
     };
     await fetch(url, params);
