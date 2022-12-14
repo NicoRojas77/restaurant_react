@@ -24,7 +24,7 @@ function MenuLeft(props){
   return(
     <Menu fixed="left" borderless className="side" vertical>
       <Menu.Item as={Link} to={'/admin'} active={pathname==='/admin'}>
-        <Icon name="home"/> Ordenes
+        <Icon name="utensils"/> Ordenes
       </Menu.Item>
       
       <Menu.Item as={Link} to={'/admin/tables'} active={pathname==='/admin/tables'}>
@@ -41,6 +41,10 @@ function MenuLeft(props){
 
       <Menu.Item as={Link} to={'/admin/products'} active={pathname==='/admin/products'}>
         <Icon name="coffee"/> Productos
+      </Menu.Item>
+
+      <Menu.Item as={Link} to={'/admin/Ingredients'} active={pathname==='/admin/Ingredients'}>
+        <Icon name="lemon"/> Ingredientes
       </Menu.Item>
       
       {/* {auth.me?.is_staff && (

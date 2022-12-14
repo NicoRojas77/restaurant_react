@@ -9,4 +9,5 @@ export * from "./Table";
 export * from "./TableDetails";
 export * from "./Payments";
 export * from "./Orders";
+export * from "./Ingredient";
 

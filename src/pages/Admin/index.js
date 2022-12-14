@@ -6,3 +6,4 @@ export * from "./ProductAdmin";
 export * from "./TableAdmin"
 export * from "./TableDetailsAdmin"
 export * from "./PaymentsHistory"
+export * from "./IngredientsAdmin"

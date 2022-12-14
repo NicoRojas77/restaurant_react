@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { Label, Button, Icon, Checkbox } from "semantic-ui-react";
 import { getOrdersByTableApi } from "../../../../api/orders";
 import { ORDER_STATUS } from "../../../../utils/constants";
+import { usePayment } from "../../../../hooks";
 import { ReactComponent as IcTable } from "../../../../assets/tables.svg";
 import "./TableAdmin.scss";
 
@@ -12,6 +13,8 @@ export function TableAdmin(props) {
   const { table, reload } = props;
   const [orders, setOrders] = useState([]);
   const [tableBusy, setTableBusy] = useState([]);
+  const [pendingPayment, setPendingPayment] = useState(false);
+  const { getPaymentByTable } = usePayment();
 
   useEffect(() => {
     (async () => {
@@ -30,8 +33,16 @@ export function TableAdmin(props) {
         table.id,
         ORDER_STATUS.DELIVERED
       );
-      if(size(response) > 0) setTableBusy(response);
-      else setTableBusy(false)
+      if (size(response) > 0) setTableBusy(response);
+      else setTableBusy(false);
+    })();
+  }, [reload]);
+
+  useEffect(() => {
+    (async () => {
+      const response = await getPaymentByTable(table.id);
+      if (size(response) > 0) setPendingPayment(true);
+      else setPendingPayment(false);
     })();
   }, [reload]);
 
@@ -42,10 +53,17 @@ export function TableAdmin(props) {
           {size(orders)}
         </Label>
       ) : null}
+
+      {pendingPayment && (
+        <Label circular color="orange">
+          Cuenta
+        </Label>
+      )}
       <IcTable
         className={classNames({
           pending: size(orders) > 0,
           busy: tableBusy,
+          "pending-payment": pendingPayment,
         })}
       />
       <p>Mesa {table.numero} </p>
